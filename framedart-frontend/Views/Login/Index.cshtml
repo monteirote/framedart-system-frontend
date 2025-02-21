@@ -19,23 +19,22 @@
             <div class="card-body">
                 <h5 class="card-title text-center mb-4">Login</h5>
 
-                <form>
-                    <div class="mb-3">
-                        <label for="cpfUsuario" class="form-label"><strong>CPF/Usuário</strong></label>
-                        <input type="text" class="form-control" id="cpfUsuario" placeholder="Digite o cpf/usuário">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="senha" class="form-label"><strong>Senha</strong></label>
-                        <input type="password" class="form-control" id="senha" placeholder="Digite a Senha">
-                    </div>
-
-                    <div class="form-check mb-3">
-                        <input type="checkbox" class="form-check-input" id="manterLogado">
-                        <label class="form-check-label" for="manterLogado">Manter Logado</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Entrar</button>
-                </form>
+                <div class="mb-3">
+                    <label for="nomeUsuario" class="form-label"><strong>Usuário</strong></label>
+                    <input type="text" class="form-control" id="nomeUsuario" placeholder="Digite o usuário">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="senha" class="form-label"><strong>Senha</strong></label>
+                    <input type="password" class="form-control" id="senha" placeholder="Digite a Senha">
+                </div>
+                
+                @*<div class="form-check mb-3">
+                    <input type="checkbox" class="form-check-input" id="manterLogado">
+                    <label class="form-check-label" for="manterLogado">Manter Logado</label>
+                </div>*@
+                
+                <button class="btn btn-primary w-100" onclick="FazerLogin()">Entrar</button>
 
                 <div class="text-center mt-3">
                     <a href="#" class="text-decoration-none">Esqueceu a senha?</a>
@@ -46,5 +45,30 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+
+<script>
+        function FazerLogin() {
+
+            let usuario = {
+                Username: $('#nomeUsuario').val(),
+                Password: $('#senha').val()
+            };
+
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(usuario),
+                dataType: 'json',
+                url: '@Url.Action("ValidarUsuario", "Login")',
+                async: true,
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+</script>
 </body>
 </html>
